@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speed Test Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <h1>Internet Speed History</h1>
+    <canvas id="speedChart" width="800" height="400"></canvas>
+    <script>
+      const data = {
+        labels: {{ results | map(attribute='timestamp') | list }},
+        datasets: [
+          {
+            label: 'Download (Mbps)',
+            data: {{ results | map(attribute='download') | list }},
+            borderColor: 'blue',
+            fill: false
+          },
+          {
+            label: 'Upload (Mbps)',
+            data: {{ results | map(attribute='upload') | list }},
+            borderColor: 'green',
+            fill: false
+          },
+          {
+            label: 'Ping (ms)',
+            data: {{ results | map(attribute='ping') | list }},
+            borderColor: 'red',
+            fill: false
+          }
+        ]
+      };
+
+      new Chart(document.getElementById('speedChart'), {
+        type: 'line',
+        data: data
+      });
+    </script>
+  </body>
+</html>
