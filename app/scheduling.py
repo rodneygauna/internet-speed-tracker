@@ -61,10 +61,10 @@ async def run_speedtest():
             logger.error("Invalid speedtest output: Missing required keys")
             return
 
-        # Convert bandwidth to Mbps
+        # Convert bandwidth to Mbps (example response is in the JSON is 169762298.676475 and should save as 169.762298676475)
         record = SpeedTestResult(
-            download=data['download'] / 125000,
-            upload=data['upload'] / 125000,
+            download=data['download'] / 1000000,
+            upload=data['upload'] / 1000000,
             ping=data['ping'],
             hosted_name=data['server']['sponsor'],
             hosted_location=data['server']['name'],

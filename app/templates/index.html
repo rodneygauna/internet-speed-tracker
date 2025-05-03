@@ -8,24 +8,31 @@
     <h1>Internet Speed History</h1>
     <canvas id="speedChart" width="800" height="400"></canvas>
     <script>
+      // Convert UTC timestamps to the browser's local timezone
+      const rawTimestamps = {{ results | map(attribute='timestamp') | list | tojson }};
+      const localTimestamps = rawTimestamps.map(ts => {
+        const date = new Date(ts); // Parse the UTC timestamp
+        return date.toLocaleString(); // Convert to local timezone and format
+      });
+
       const data = {
-        labels: {{ results | map(attribute='timestamp') | list }},
+        labels: localTimestamps, // Use the converted timestamps
         datasets: [
           {
             label: 'Download (Mbps)',
-            data: {{ results | map(attribute='download') | list }},
+            data: {{ results | map(attribute='download') | list | tojson }},
             borderColor: 'blue',
             fill: false
           },
           {
             label: 'Upload (Mbps)',
-            data: {{ results | map(attribute='upload') | list }},
+            data: {{ results | map(attribute='upload') | list | tojson }},
             borderColor: 'green',
             fill: false
           },
           {
             label: 'Ping (ms)',
-            data: {{ results | map(attribute='ping') | list }},
+            data: {{ results | map(attribute='ping') | list | tojson }},
             borderColor: 'red',
             fill: false
           }
