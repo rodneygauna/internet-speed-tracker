@@ -98,7 +98,7 @@
 
       // Create the charts
       new Chart(document.getElementById('pingChart'), {
-        type: 'bar',
+        type: 'line',
         data: pingData,
         options: {
           responsive: true,
@@ -110,9 +110,6 @@
                 autoSkip: true,
                 maxTicksLimit: 10,
               },
-            },
-            y: {
-              beginAtZero: true,
             },
           },
           plugins: {
@@ -126,7 +123,7 @@
       });
 
       new Chart(document.getElementById('downloadChart'), {
-        type: 'bar',
+        type: 'line',
         data: downloadData,
         options: {
           responsive: true,
@@ -138,9 +135,6 @@
                 autoSkip: true,
                 maxTicksLimit: 10,
               },
-            },
-            y: {
-              beginAtZero: true,
             },
           },
           plugins: {
@@ -154,7 +148,7 @@
       });
 
       new Chart(document.getElementById('uploadChart'), {
-        type: 'bar',
+        type: 'line',
         data: uploadData,
         options: {
           responsive: true,
@@ -166,9 +160,6 @@
                 autoSkip: true,
                 maxTicksLimit: 10,
               },
-            },
-            y: {
-              beginAtZero: true,
             },
           },
           plugins: {

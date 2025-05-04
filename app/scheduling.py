@@ -83,18 +83,26 @@ def start_scheduler():
     try:
         interval = int(os.getenv('SPEEDTEST_INTERVAL_MINUTES', '30'))
 
-        # Run the speedtest immediately
-        logger.info("Running the initial speedtest...")
-        # Use asyncio.run to execute the async function
-        asyncio.run(run_speedtest())
+        # Pass the Flask app instance to the scheduler job
+        app = current_app._get_current_object()
 
-        # Schedule subsequent speedtests
-        scheduler.add_job(lambda: asyncio.run(run_speedtest()), 'interval',
-                          minutes=interval,
-                          id='speedtest_job', replace_existing=True)
+        scheduler.add_job(
+            lambda: run_speedtest_with_app_context(
+                app),  # Pass the app instance
+            'interval',
+            minutes=interval,
+            id='speedtest_job',
+            replace_existing=True
+        )
         if not scheduler.running:
             scheduler.start()
         logger.info(
             "Scheduler started with an interval of %d minutes.", interval)
     except Exception as e:
         logger.error("Failed to start scheduler: %s", e)
+
+
+def run_speedtest_with_app_context(app):
+    '''Run the speedtest command within the Flask application context.'''
+    with app.app_context():  # Push the app context manually
+        asyncio.run(run_speedtest())
