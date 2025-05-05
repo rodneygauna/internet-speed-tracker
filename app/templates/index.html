@@ -15,7 +15,7 @@
         height: 70vh; /* 70% of the viewport height */
       }
       .chart-container {
-        height: 100%;
+        height: 90%;
         width: 100%;
       }
     </style>
@@ -35,12 +35,12 @@
 
       <!-- Row 2: Download and Upload Bar Graphs -->
       <div class="row row-2">
-        <div class="col">
+        <div class="col-md-6">
           <div class="chart-container">
             <canvas id="downloadChart"></canvas>
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6">
           <div class="chart-container">
             <canvas id="uploadChart"></canvas>
           </div>
@@ -116,6 +116,15 @@
             legend: {
               display: true,
             },
+            datalabels: {
+              display: true,
+              color: 'black',
+              anchor: 'end',
+              align: 'end',
+              formatter: function (value, context) {
+                return value + ' ms'; // Format the label to show "ms"
+              },
+            }
           },
           barPercentage: 1.0, // Full width for bars
           categoryPercentage: 1.0, // No space between categories
@@ -141,6 +150,15 @@
             legend: {
               display: true,
             },
+            datalabels: {
+              display: true,
+              color: 'black',
+              anchor: 'end',
+              align: 'end',
+              formatter: function (value, context) {
+                return value + ' Mbps'; // Format the label to show "Mbps"
+              },
+            }
           },
           barPercentage: 1.0,
           categoryPercentage: 1.0,
@@ -166,6 +184,15 @@
             legend: {
               display: true,
             },
+            datalabels: {
+              display: true,
+              color: 'black',
+              anchor: 'end',
+              align: 'end',
+              formatter: function (value, context) {
+                return value + ' Mbps'; // Format the label to show "Mbps"
+              },
+            }
           },
           barPercentage: 1.0,
           categoryPercentage: 1.0,
