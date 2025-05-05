@@ -86,18 +86,24 @@ def start_scheduler():
         # Pass the Flask app instance to the scheduler job
         app = current_app._get_current_object()
 
-        scheduler.add_job(
-            lambda: run_speedtest_with_app_context(
-                app),  # Pass the app instance
-            'interval',
-            minutes=interval,
-            id='speedtest_job',
-            replace_existing=True
-        )
+        # Check if the job already exists
+        if scheduler.get_job('speedtest_job') is None:
+            scheduler.add_job(
+                lambda: run_speedtest_with_app_context(
+                    app),  # Pass the app instance
+                'interval',
+                minutes=interval,
+                id='speedtest_job',
+                replace_existing=True
+            )
+            logger.info("Added speedtest job to the scheduler.")
+        else:
+            logger.info("Speedtest job already exists. Skipping job addition.")
+
         if not scheduler.running:
             scheduler.start()
-        logger.info(
-            "Scheduler started with an interval of %d minutes.", interval)
+            logger.info(
+                "Scheduler started with an interval of %d minutes.", interval)
     except Exception as e:
         logger.error("Failed to start scheduler: %s", e)
 
